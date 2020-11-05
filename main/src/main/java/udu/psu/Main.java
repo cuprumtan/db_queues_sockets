@@ -1,4 +1,4 @@
-package edu.psu;
+package udu.psu;
 
 public class Main {
 
