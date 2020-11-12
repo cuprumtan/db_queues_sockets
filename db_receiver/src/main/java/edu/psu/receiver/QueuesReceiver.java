@@ -5,6 +5,7 @@ import org.apache.activemq.ActiveMQConnectionFactory;
 
 import javax.crypto.Cipher;
 import javax.crypto.SecretKey;
+import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 import javax.jms.*;
 import java.io.ByteArrayInputStream;
@@ -84,12 +85,13 @@ public class QueuesReceiver implements Runnable, ExceptionListener {
 
     public static byte[] decrypt(byte[] message, String passwd) throws Exception {
         final MessageDigest md = MessageDigest.getInstance("md5");
-        final byte[] digestOfPassword = md.digest(passwd.getBytes("utf-8"));
-        final byte[] keyBytes = Arrays.copyOf(digestOfPassword, 8);
+        final byte[] digest = md.digest(passwd.getBytes("utf-8"));
+        final byte[] keyBytes = Arrays.copyOf(digest, 24);
 
-        final SecretKey key = new SecretKeySpec(keyBytes, "DES");
-        final Cipher decipher = Cipher.getInstance("DES/ECB/PKCS5Padding");
-        decipher.init(Cipher.DECRYPT_MODE, key);
+        final SecretKey secretKey = new SecretKeySpec(keyBytes, "DESede");
+        final IvParameterSpec iv = new IvParameterSpec(new byte[8]);
+        final Cipher decipher = Cipher.getInstance("DESede/CBC/PKCS5Padding");
+        decipher.init(Cipher.DECRYPT_MODE, secretKey, iv);
 
         return decipher.doFinal(message);
     }
