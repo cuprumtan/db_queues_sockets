@@ -24,7 +24,7 @@ public class ReceiverMain {
             KeyPairGenerator keyGen = KeyPairGenerator.getInstance("RSA");
             keyGen.initialize(2048);
             KeyPair kp = keyGen.genKeyPair();
-            Socket client = new Socket("127.0.0.1", 60000);
+            Socket client = new Socket(PropertyReader.LoadProperty("socket.host"), Integer.parseInt(PropertyReader.LoadProperty("socket.port")));
             ObjectOutputStream os = new ObjectOutputStream(client.getOutputStream());
             os.writeObject(kp.getPublic());
             // Отправить

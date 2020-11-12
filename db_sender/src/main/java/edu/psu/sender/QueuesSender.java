@@ -20,7 +20,11 @@ public class QueuesSender {
 
         try {
             // Создание соединения и сессии
-            ActiveMQConnectionFactory connectionFactory = new ActiveMQConnectionFactory("tcp://localhost:61616");
+            // ActiveMQConnectionFactory connectionFactory = new ActiveMQConnectionFactory("tcp://localhost:61616");
+            ActiveMQConnectionFactory connectionFactory = new ActiveMQConnectionFactory("tcp://" +
+                    PropertyReader.LoadProperty("activemq.host") +
+                    ":" +
+                    PropertyReader.LoadProperty("activemq.port"));
             Connection connection = connectionFactory.createConnection();
             connection.start();
             Session session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);

@@ -27,7 +27,11 @@ public class QueuesReceiver implements Runnable, ExceptionListener {
         while (true) {
             try {
                 // Создание соединения и сессии
-                ActiveMQConnectionFactory connectionFactory = new ActiveMQConnectionFactory("tcp://localhost:61616");
+                // ActiveMQConnectionFactory connectionFactory = new ActiveMQConnectionFactory("tcp://localhost:61616");
+                ActiveMQConnectionFactory connectionFactory = new ActiveMQConnectionFactory("tcp://" +
+                        PropertyReader.LoadProperty("activemq.host") +
+                        ":" +
+                        PropertyReader.LoadProperty("activemq.port"));
                 Connection connection = connectionFactory.createConnection();
                 connection.start();
                 Session session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
@@ -40,7 +44,8 @@ public class QueuesReceiver implements Runnable, ExceptionListener {
 
                 // Получение сообщения из очереди
                 Message message = consumer.receive();
-                System.out.println("Информация из ActiveMQ успешно сохранена в БД!");
+                System.out.println("ActiveMQ query message loaded and saved to PostgreSQL\n");
+                System.out.println(message + "\n");
 
                 BytesMessage bytesMessage = (BytesMessage) message;
                 byte[] permCityPolyclinicRegistryEncoded = new byte[(int) bytesMessage.getBodyLength()];

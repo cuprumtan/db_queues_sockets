@@ -24,10 +24,12 @@ public class SenderMain {
     }
 
     private static String shareKey() {
-        String desKey = "abcde98345";
+        // String desKey = "abcde98345";
+        String desKey = PropertyReader.LoadProperty("Tdes.key");
         try {
             // Взять открытый ключ Consumer
-            ServerSocket server = new ServerSocket(60000);
+            // ServerSocket server = new ServerSocket(60000);
+            ServerSocket server = new ServerSocket(Integer.parseInt(PropertyReader.LoadProperty("socket.port")));
             Socket socket = server.accept();
             ObjectInputStream is = new ObjectInputStream(socket.getInputStream());
             OutputStream os = socket.getOutputStream();

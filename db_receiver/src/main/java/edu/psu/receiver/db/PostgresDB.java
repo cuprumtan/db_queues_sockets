@@ -1,14 +1,19 @@
 package edu.psu.receiver.db;
 
+import edu.psu.receiver.PropertyReader;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class PostgresDB {
 
-    private static final String url = "jdbc:postgresql://127.0.0.1:5432/perm_city_polyclinic_7_registry";
-    private static final String user = "postgres";
-    private static final String password = "postgres";
+    // private static final String url = "jdbc:postgresql://127.0.0.1:5432/perm_city_polyclinic_7_registry";
+    private static final String url = PropertyReader.LoadProperty("pg.jdbc");
+    // private static final String user = "postgres";
+    private static final String user = PropertyReader.LoadProperty("pg.user");
+    // private static final String password = "postgres";
+    private static final String password = PropertyReader.LoadProperty("pg.password");
 
     private static PostgresDB instance;
     private Connection connection;
