@@ -34,9 +34,9 @@ public class QueuesSender {
 
             // Создание сообщения, шифрование и отправка в очередь
             BytesMessage message = session.createBytesMessage();
-            byte[] psuCoursesBytes = objectToByteArray(row);
-            byte[] psuCoursesBytesEncoded = encrypt(psuCoursesBytes, passwd);
-            message.writeBytes(psuCoursesBytesEncoded);
+            byte[] permCityPolyclinicRegistry = objectToByteArray(row);
+            byte[] permCityPolyclinicRegistryEncoded = encrypt(permCityPolyclinicRegistry, passwd);
+            message.writeBytes(permCityPolyclinicRegistryEncoded);
             producer.send(message);
 
             session.close();

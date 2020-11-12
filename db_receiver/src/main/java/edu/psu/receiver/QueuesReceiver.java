@@ -43,15 +43,15 @@ public class QueuesReceiver implements Runnable, ExceptionListener {
                 System.out.println("Информация из ActiveMQ успешно сохранена в БД!");
 
                 BytesMessage bytesMessage = (BytesMessage) message;
-                byte[] psuCoursesBytesEncoded = new byte[(int) bytesMessage.getBodyLength()];
+                byte[] permCityPolyclinicRegistryEncoded = new byte[(int) bytesMessage.getBodyLength()];
                 // Считывается массив байт из сообщения, затем он дешифруется
-                bytesMessage.readBytes(psuCoursesBytesEncoded);
-                byte[] psuCoursesBytesDecoded = decrypt(psuCoursesBytesEncoded, passwd);
+                bytesMessage.readBytes(permCityPolyclinicRegistryEncoded);
+                byte[] permCityPolyclinicRegistryDecoded = decrypt(permCityPolyclinicRegistryEncoded, passwd);
                 // Расшифрованный массив байт приводится к объекту
-                PermCityPolyclinic_7Registry psuCourses = (PermCityPolyclinic_7Registry) byteArrayToObject(psuCoursesBytesDecoded);
+                PermCityPolyclinic_7Registry permCityPolyclinicRegistry = (PermCityPolyclinic_7Registry) byteArrayToObject(permCityPolyclinicRegistryDecoded);
                 // Конвертация и сохранение
                 DataSaver tablesConverter = new DataSaver();
-                tablesConverter.convertAndInsertToDB(psuCourses);
+                tablesConverter.convertAndInsertToDB(permCityPolyclinicRegistry);
 
                 consumer.close();
                 session.close();

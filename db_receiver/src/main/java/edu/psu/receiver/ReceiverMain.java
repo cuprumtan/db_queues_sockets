@@ -27,6 +27,7 @@ public class ReceiverMain {
             Socket client = new Socket("127.0.0.1", 60000);
             ObjectOutputStream os = new ObjectOutputStream(client.getOutputStream());
             os.writeObject(kp.getPublic());
+            // Отправить
             os.flush();
 
             // Принять зашифрованное сообщение
